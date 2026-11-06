@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colegio Montano - Interactive Guide 9: Unit Synthesis & Final Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        montano: {
+                            blue: '#1269A8',
+                            yellow: '#F7D615',
+                            teal: '#54887D',
+                            lightblue: '#88B5C7',
+                            olive: '#A6B046',
+                            softwhite: '#F2F5E9'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Nunito', 'Segoe UI', 'Tahoma', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #e5e9f0;
+            font-family: 'Nunito', sans-serif;
+        }
+        .whiteboard-frame {
+            background-color: #F2F5E9;
+            border: 12px solid #334155;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+        .nav-tab.active {
+            background-color: #1269A8;
+            color: #FFFFFF;
+            border-bottom: 4px solid #F7D615;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #F2F5E9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #88B5C7;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="p-2 md:p-6 min-h-screen text-slate-800">
+
+    <!-- Main Container / Whiteboard Frame -->
+    <div id="whiteboard" class="whiteboard-frame max-w-7xl mx-auto p-4 md:p-8 relative transition-all duration-300">
+        
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-center border-b-2 border-montano-blue pb-4 mb-6 gap-4">
+            <div class="flex items-center gap-4">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyEop0yf6lZ7Jk9MILZxF1rBj4Oqs5esyhIQ&s" 
+                     alt="Colegio Montano Logo" 
+                     class="h-16 w-auto object-contain rounded bg-white p-1 border border-gray-200"
+                     onerror="this.src='https://placehold.co/120x60/1269A8/FFFFFF?text=Colegio+Montano'">
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-montano-blue tracking-wide">COLEGIO MONTANO</h1>
+                    <p class="text-sm font-semibold text-montano-teal">High School Department | 11th Grade (4to Bachillerato)</p>
+                    <p class="text-xs font-bold text-gray-600">English B2 Advanced • Research Methodology & Portfolio Synthesis</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="bg-montano-lightblue/20 border border-montano-lightblue p-2 rounded-lg text-xs font-bold text-montano-blue text-center">
+                    <span>Guide 9: Unit Synthesis & Portfolio</span><br>
+                    <span class="text-montano-olive">60-Min Methodological Workshop</span>
+                </div>
+                <button onclick="toggleFullscreen()" title="Toggle Fullscreen" class="bg-montano-blue hover:bg-montano-teal text-white p-3 rounded-xl transition duration-200 shadow-md">
+                    <i class="fa-solid fa-expand text-lg"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="flex flex-wrap border-b border-gray-300 mb-6 bg-white/60 rounded-xl p-1 gap-1">
+            <button onclick="switchTab('tab1')" id="btn-tab1" class="nav-tab active flex-1 min-w-[140px] py-3 px-4 rounded-lg font-bold text-sm text-center transition flex items-center justify-center gap-2 text-slate-700">
+                <i class="fa-solid fa-book-bookmark"></i> 1. Theory & Synthesis
+            </button>
+            <button onclick="switchTab('tab2')" id="btn-tab2" class="nav-tab flex-1 min-w-[140px] py-3 px-4 rounded-lg font-bold text-sm text-center transition flex items-center justify-center gap-2 text-slate-700">
+                <i class="fa-solid fa-lightbulb"></i> 2. 15 Solved Examples
+            </button>
+            <button onclick="switchTab('tab3')" id="btn-tab3" class="nav-tab flex-1 min-w-[140px] py-3 px-4 rounded-lg font-bold text-sm text-center transition flex items-center justify-center gap-2 text-slate-700">
+                <i class="fa-solid fa-microphone"></i> 3. Voice Simulator & Dashboard
+            </button>
+            <button onclick="switchTab('tab4')" id="btn-tab4" class="nav-tab flex-1 min-w-[140px] py-3 px-4 rounded-lg font-bold text-sm text-center transition flex items-center justify-center gap-2 text-slate-700">
+                <i class="fa-solid fa-brain"></i> 4. Critical Reflections & Exit Ticket
+            </button>
+            <button onclick="switchTab('tab5')" id="btn-tab5" class="nav-tab flex-1 min-w-[140px] py-3 px-4 rounded-lg font-bold text-sm text-center transition flex items-center justify-center gap-2 text-slate-700">
+                <i class="fa-solid fa-list-check"></i> 5. Formative Evaluation (15)
+            </button>
+        </nav>
+
+        <!-- TAB 1: THEORY & SYNTHESIS -->
+        <div id="tab1" class="tab-content active space-y-6">
+            <div class="bg-white p-6 rounded-2xl border-l-8 border-montano-blue shadow-sm">
+                <h2 class="text-2xl font-bold text-montano-blue mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-diagram-project text-montano-yellow"></i> Unit Synthesis & Final Portfolio Curation
+                </h2>
+                <p class="text-gray-700 text-sm leading-relaxed">
+                    Unit Synthesis consolidates knowledge across research methodologies, aligning research questions, experimental vs. descriptive designs, data collection instruments, ethical protocols, and critical reflections into a polished final portfolio.
+                </p>
+            </div>
+
+            <!-- Lesson Breakdown Timed Flow (60-Min Strategy) -->
+            <div class="bg-montano-blue/5 p-4 rounded-2xl border border-montano-blue/20">
+                <h3 class="font-bold text-montano-blue text-md mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-clock"></i> 60-Minute Synthesis Workshop Agenda
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-3 text-center text-xs">
+                    <div class="bg-white p-3 rounded-xl border border-montano-lightblue shadow-xs">
+                        <span class="font-extrabold text-montano-blue block text-sm">10 MIN</span>
+                        <span class="text-gray-600 font-semibold">Retrieval: Experimental vs. Descriptive</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-montano-teal shadow-xs">
+                        <span class="font-extrabold text-montano-teal block text-sm">15 MIN</span>
+                        <span class="text-gray-600 font-semibold">Short Case-Based Method Review</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-montano-olive shadow-xs">
+                        <span class="font-extrabold text-montano-olive block text-sm">20 MIN</span>
+                        <span class="text-gray-600 font-semibold">Portfolio Check & Final Organization</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-montano-yellow shadow-xs">
+                        <span class="font-extrabold text-slate-800 block text-sm">10 MIN</span>
+                        <span class="text-gray-600 font-semibold">Learning Reflection & Peer Sharing</span>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-montano-blue shadow-xs">
+                        <span class="font-extrabold text-montano-blue block text-sm">5 MIN</span>
+                        <span class="text-gray-600 font-semibold">Exit Ticket Submission</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conceptual Cards: Core Synthesis Pillars -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Pillar 1: Methodological Distinction -->
+                <div class="bg-white p-5 rounded-2xl border-t-4 border-montano-blue shadow-sm hover:shadow-md transition">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="bg-montano-blue/10 text-montano-blue p-3 rounded-xl"><i class="fa-solid fa-flask text-lg"></i></span>
+                        <h3 class="font-bold text-montano-blue text-lg">1. Experimental vs. Descriptive</h3>
+                    </div>
+                    <p class="text-xs text-gray-600 mb-3">Experimental designs manipulate independent variables to measure cause-and-effect. Descriptive designs observe, document, and categorize patterns without variable manipulation.</p>
+                    <div class="bg-montano-softwhite p-3 rounded-xl border text-xs space-y-1">
+                        <span class="font-bold text-montano-teal">Key Distinction:</span> Control Groups & Causality (Experimental) vs. Natural Context & Correlation (Descriptive).
+                    </div>
+                </div>
+
+                <!-- Pillar 2: Instrument & Data Validation -->
+                <div class="bg-white p-5 rounded-2xl border-t-4 border-montano-teal shadow-sm hover:shadow-md transition">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="bg-montano-teal/10 text-montano-teal p-3 rounded-xl"><i class="fa-solid fa-chart-line text-lg"></i></span>
+                        <h3 class="font-bold text-montano-teal text-lg">2. Instrument Triangulation</h3>
+                    </div>
+                    <p class="text-xs text-gray-600 mb-3">Ensuring validity and reliability by cross-verifying qualitative findings (interviews, observations) with quantitative instruments (surveys, diagnostic tests).</p>
+                    <div class="bg-montano-softwhite p-3 rounded-xl border text-xs space-y-1">
+                        <span class="font-bold text-montano-teal">Key Test:</span> Do instruments measure the intended research construct consistently?
+                    </div>
+                </div>
+
+                <!-- Pillar 3: Ethical Decision-Making -->
+                <div class="bg-white p-5 rounded-2xl border-t-4 border-montano-olive shadow-sm hover:shadow-md transition">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="bg-montano-olive/10 text-montano-olive p-3 rounded-xl"><i class="fa-solid fa-user-shield text-lg"></i></span>
+                        <h3 class="font-bold text-montano-olive text-lg">3. Ethical Safeguards</h3>
+                    </div>
+                    <p class="text-xs text-gray-600 mb-3">Rigorous protection of participant rights through informed consent/assent, data anonymization, risk minimization, and transparent reporting.</p>
+                    <div class="bg-montano-softwhite p-3 rounded-xl border text-xs space-y-1">
+                        <span class="font-bold text-montano-olive">Key Principles:</span> Autonomy, Beneficence, Anonymity, Non-Maleficence.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Research Portfolio Readiness Scale -->
+            <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+                <h3 class="font-bold text-montano-blue text-lg mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-montano-yellow"></i> Portfolio Quality & Synthesis Readiness Scale
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span>Stage 1: Fragmented Artifacts (Uncurated)</span>
+                            <span class="text-red-500">35% Readiness</span>
+                        </div>
+                        <div class="w-full bg-gray-200 h-3 rounded-full overflow-hidden">
+                            <div class="bg-red-400 h-full w-[35%]"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Disjointed drafts lacking methodological alignment, explicit ethical protocols, or self-reflective annotations.</p>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span>Stage 2: Structurally Complete Portfolio</span>
+                            <span class="text-montano-yellow">75% Readiness</span>
+                        </div>
+                        <div class="w-full bg-gray-200 h-3 rounded-full overflow-hidden">
+                            <div class="bg-montano-yellow h-full w-[75%]"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Contains all required research proposals, instrument drafts, and peer feedback notes, but lacks synthesis of methodological choices.</p>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span>Stage 3: Advanced Academic Synthesis & Defense Ready</span>
+                            <span class="text-montano-teal">100% Readiness</span>
+                        </div>
+                        <div class="w-full bg-gray-200 h-3 rounded-full overflow-hidden">
+                            <div class="bg-montano-teal h-full w-[100%]"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Fully integrated research portfolio featuring rigorous method justifications, ethical risk audits, peer revision tracking, and metacognitive reflections.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: SOLVED EXAMPLES (15 SYNTHESIS EXAMPLES) -->
+        <div id="tab2" class="tab-content space-y-6">
+            <div class="flex justify-between items-center bg-white p-4 rounded-2xl border-l-8 border-montano-blue">
+                <div>
+                    <h2 class="text-xl font-bold text-montano-blue">15 Synthesis & Portfolio Case Examples</h2>
+                    <p class="text-xs text-gray-600">Categorized across 3 academic complexity levels. Click the speaker icon to listen to the case synthesis.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="filterExamples('all')" class="px-3 py-1 bg-montano-blue text-white rounded-lg text-xs font-bold hover:bg-montano-teal">All (15)</button>
+                    <button onclick="filterExamples('basic')" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-lg text-xs font-bold hover:bg-montano-blue hover:text-white">Basic</button>
+                    <button onclick="filterExamples('intermediate')" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-lg text-xs font-bold hover:bg-montano-blue hover:text-white">Intermediate</button>
+                    <button onclick="filterExamples('advanced')" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-lg text-xs font-bold hover:bg-montano-blue hover:text-white">Advanced</button>
+                </div>
+            </div>
+
+            <!-- Container for 15 Examples -->
+            <div id="examples-container" class="grid md:grid-cols-2 gap-4">
+                <!-- Populated dynamically via JS -->
+            </div>
+        </div>
+
+        <!-- TAB 3: LIVE INTERACTIVE VOICE SIMULATOR & DASHBOARD -->
+        <div id="tab3" class="tab-content space-y-6">
+            <div class="bg-white p-6 rounded-2xl border-l-8 border-montano-teal shadow-sm">
+                <h2 class="text-2xl font-bold text-montano-blue mb-1 flex items-center gap-2">
+                    <i class="fa-solid fa-headset text-montano-teal"></i> Research Defense & Portfolio Synthesis Simulator
+                </h2>
+                <p class="text-xs text-gray-600">Present your final research portfolio defense before the Academic Evaluation Committee. Speak or type your defense to receive instant pedagogical evaluation.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-6">
+                <!-- Simulator Left Column -->
+                <div class="lg:col-span-7 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between space-y-4">
+                    <!-- Committee Prompt -->
+                    <div id="scenario-box" class="bg-montano-softwhite p-4 rounded-xl border border-montano-lightblue/40">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-extrabold text-montano-blue bg-white px-2 py-1 rounded border">PORTFOLIO DEFENSE COMMITTEE PROMPT</span>
+                            <button onclick="speakText(document.getElementById('committee-prompt').innerText)" class="text-montano-blue hover:text-montano-teal text-sm">
+                                <i class="fa-solid fa-volume-high"></i> Listen Prompt
+                            </button>
+                        </div>
+                        <p id="committee-prompt" class="text-sm font-semibold text-slate-800 italic">
+                            "Candidate, synthesize how your chosen research method aligns with your target sample, and justify one core ethical safeguard integrated into your final portfolio."
+                        </p>
+                    </div>
+
+                    <!-- Input Area -->
+                    <div class="space-y-3">
+                        <label class="text-xs font-bold text-gray-600 block">Your Spoken or Written Synthesis Defense:</label>
+                        <textarea id="defense-input" rows="4" class="w-full p-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:border-montano-blue" placeholder="Speak using microphone or type your synthesis... e.g., 'In my research portfolio, I utilized a descriptive survey design with 50 high school students to ensure high ecological validity, enforcing strict data anonymization and informed consent safeguards...'"></textarea>
+                        
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <button id="mic-btn" onclick="toggleVoiceRecognition()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition shadow">
+                                    <i class="fa-solid fa-microphone"></i> <span id="mic-label">Record Response</span>
+                                </button>
+                                <span id="mic-status" class="text-xs text-gray-500 italic">Mic inactive</span>
+                            </div>
+
+                            <button onclick="evaluateDefense()" class="bg-montano-blue hover:bg-montano-teal text-white px-5 py-2 rounded-xl text-xs font-bold transition shadow">
+                                <i class="fa-solid fa-paper-plane"></i> Submit Defense
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulator Right Column (Dashboard) -->
+                <div class="lg:col-span-5 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm space-y-4">
+                    <h3 class="font-bold text-montano-blue text-md border-b pb-2 flex items-center justify-between">
+                        <span><i class="fa-solid fa-chart-line text-montano-olive"></i> Live Performance Dashboard</span>
+                        <span class="text-xs bg-montano-yellow/30 text-slate-800 px-2 py-0.5 rounded font-extrabold">Real-Time Metric Engine</span>
+                    </h3>
+
+                    <!-- Metric 1: Pronunciation & Speech Clarity -->
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span class="text-gray-600">Pronunciation & Speech Clarity Score</span>
+                            <span id="score-clarity-val" class="text-montano-blue">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 h-2.5 rounded-full overflow-hidden">
+                            <div id="score-clarity-bar" class="bg-montano-blue h-full w-[0%] transition-all duration-500"></div>
+                        </div>
+                    </div>
+
+                    <!-- Metric 2: Topic & Method Alignment -->
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span class="text-gray-600">Topic / Method Alignment Score</span>
+                            <span id="score-grammar-val" class="text-montano-teal">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 h-2.5 rounded-full overflow-hidden">
+                            <div id="score-grammar-bar" class="bg-montano-teal h-full w-[0%] transition-all duration-500"></div>
+                        </div>
+                    </div>
+
+                    <!-- Metric 3: Academic Etiquette -->
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span class="text-gray-600">Academic Etiquette & Register Score</span>
+                            <span id="score-etiquette-val" class="text-montano-olive">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 h-2.5 rounded-full overflow-hidden">
+                            <div id="score-etiquette-bar" class="bg-montano-olive h-full w-[0%] transition-all duration-500"></div>
+                        </div>
+                    </div>
+
+                    <!-- Detected Keywords -->
+                    <div>
+                        <span class="text-xs font-bold text-gray-600 block mb-1">Detected Methodological Keywords:</span>
+                        <div id="detected-keywords" class="flex flex-wrap gap-1 min-h-[32px] p-2 bg-montano-softwhite rounded-xl border border-gray-200 text-xs">
+                            <span class="text-gray-400 italic text-xs">Awaiting defense submission...</span>
+                        </div>
+                    </div>
+
+                    <!-- AI Feedback Box -->
+                    <div class="bg-montano-softwhite p-3 rounded-xl border border-montano-lightblue/30">
+                        <span class="text-xs font-bold text-montano-blue block mb-1"><i class="fa-solid fa-robot"></i> AI Committee Feedback:</span>
+                        <p id="feedback-text" class="text-xs text-gray-700 leading-relaxed">
+                            Submit your voice or written defense to receive immediate pedagogical evaluation from the academic board.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: CRITICAL REFLECTIONS & EXIT TICKET -->
+        <div id="tab4" class="tab-content space-y-6">
+            <div class="bg-white p-6 rounded-2xl border-l-8 border-montano-olive shadow-sm">
+                <h2 class="text-2xl font-bold text-montano-blue mb-1">Critical Reflections & Exit Ticket</h2>
+                <p class="text-xs text-gray-600">Reflect on your growth as a high school researcher, evaluate ethical decision-making, and complete your exit ticket.</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Reflection Question 1 -->
+                <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm space-y-2">
+                    <label class="font-bold text-montano-blue text-sm block">
+                        1. Methodological Selection: Compare experimental vs. descriptive methods. How does your choice impact the type of claims you can make in your research paper?
+                    </label>
+                    <textarea rows="3" class="w-full p-3 border rounded-xl text-sm focus:outline-none focus:border-montano-blue" placeholder="Analyze causality vs. descriptive observations..."></textarea>
+                </div>
+
+                <!-- Reflection Question 2 -->
+                <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm space-y-2">
+                    <label class="font-bold text-montano-blue text-sm block">
+                        2. Portfolio Curation & Revision: How did peer review feedback transform your original proposal draft into a final portfolio artifact?
+                    </label>
+                    <textarea rows="3" class="w-full p-3 border rounded-xl text-sm focus:outline-none focus:border-montano-blue" placeholder="Explain how constructive criticism led to methodological refinement..."></textarea>
+                </div>
+
+                <!-- Exit Ticket Card -->
+                <div class="bg-montano-softwhite p-5 rounded-2xl border-2 border-montano-yellow shadow-sm space-y-3">
+                    <div class="flex items-center justify-between border-b border-gray-300 pb-2">
+                        <span class="font-extrabold text-montano-blue text-md"><i class="fa-solid fa-ticket text-montano-yellow mr-2"></i> 5-Minute Exit Ticket</span>
+                        <span class="text-xs bg-montano-yellow text-slate-900 font-bold px-2 py-0.5 rounded">Final Check</span>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="font-bold text-xs text-gray-700 block mb-1">Name One Ethical Principle Applied in Your Portfolio:</label>
+                            <input type="text" id="exit-ethical" class="w-full p-2.5 border rounded-xl text-xs focus:outline-none focus:border-montano-blue" placeholder="e.g., Informed Consent / Anonymity">
+                        </div>
+                        <div>
+                            <label class="font-bold text-xs text-gray-700 block mb-1">Name One Research Skill Mastered in This Unit:</label>
+                            <input type="text" id="exit-skill" class="w-full p-2.5 border rounded-xl text-xs focus:outline-none focus:border-montano-blue" placeholder="e.g., Instrument Triangulation / Quantitative Analysis">
+                        </div>
+                    </div>
+
+                    <button onclick="submitExitTicket()" class="bg-montano-blue hover:bg-montano-teal text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow">
+                        Submit Exit Ticket
+                    </button>
+                    <p id="exit-status" class="text-xs font-semibold text-montano-teal hidden">Exit ticket recorded successfully! Ready for portfolio submission.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: FORMATIVE EVALUATION (15 PROBLEMS) -->
+        <div id="tab5" class="tab-content space-y-6">
+            <div class="flex justify-between items-center bg-white p-4 rounded-2xl border-l-8 border-montano-yellow shadow-sm">
+                <div>
+                    <h2 class="text-xl font-bold text-montano-blue">Formative Evaluation: 15 Synthesis Exercises</h2>
+                    <p class="text-xs text-gray-600">Test your capacity to critique methods, instruments, portfolio organization, and ethical protocols.</p>
+                </div>
+                <div class="text-xs bg-montano-blue text-white font-bold px-3 py-1.5 rounded-xl">
+                    15 Evaluative Items
+                </div>
+            </div>
+
+            <!-- 15 Interactive Exercises Container -->
+            <div id="evaluations-container" class="space-y-4">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-8 pt-4 border-t border-gray-300 text-center text-xs text-gray-500 flex flex-col md:flex-row justify-between items-center gap-2">
+            <span>© Colegio Montano • Department of English & Research Methodology</span>
+            <span>Designed for 11th Grade High School (4to Bachillerato)</span>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- DATA: 15 SOLVED SYNTHESIS EXAMPLES ---
+        const solvedExamples = [
+            // Basic (1-5)
+            { id: 1, level: 'basic', topic: 'Experimental vs. Descriptive Retrieval', q: 'A researcher observes student study habits without intervention. Is this experimental or descriptive?', h: 'It is a descriptive design because no variables were manipulated.', m: 'Descriptive Observational', s: '40 High School Students', i: 'Structured Observation Log', e: 'Passive Observation Consent', a: 'Frequency Distribution' },
+            { id: 2, level: 'basic', topic: 'Instrument Identification', q: 'Which instrument measures quantitative survey responses on student motivation?', h: 'A 5-point Likert scale questionnaire.', m: 'Quantitative Descriptive', s: '50 Freshmen', i: 'Likert Motivation Scale', e: 'Anonymized Data Codes', a: 'Mean Score Calculation' },
+            { id: 3, level: 'basic', topic: 'Ethical Principle Application', q: 'Why must high school researchers secure parental consent for underage participants?', h: 'Minors are a vulnerable population requiring legal guardian approval.', m: 'Ethical Review', s: 'Underage High Schoolers', i: 'Parental Consent Form', e: 'Informed Consent Safeguard', a: 'Compliance Audit' },
+            { id: 4, level: 'basic', topic: 'Portfolio Component Check', q: 'What is the primary purpose of an annotated peer review checklist in a research portfolio?', h: 'To provide evidence of iterative revision and critical feedback integration.', m: 'Portfolio Curation', s: 'Student Peer Dyads', i: 'Peer Assessment Rubric', e: 'Constructive Review Standards', a: 'Qualitative Draft Comparison' },
+            { id: 5, level: 'basic', topic: 'Sample Selection', q: 'Why is convenience sampling limited in descriptive research?', h: 'It reduces generalizability due to selection bias.', m: 'Sampling Methodology', s: '1 Classroom (N=20)', i: 'Demographic Survey', e: 'Voluntary Participation', a: 'Sample Bias Assessment' },
+
+            // Intermediate (6-10)
+            { id: 6, level: 'intermediate', topic: 'Experimental Causality Case', q: 'How does an experimental study establish cause-and-effect regarding new study software?', h: 'By comparing an experimental group using software against a controlled group without software.', m: 'True Experimental', s: '80 Students Randomly Assigned', i: 'Pre/Post Achievement Diagnostics', e: 'Equal Educational Access Post-Study', a: 'Independent T-Test Analysis' },
+            { id: 7, level: 'intermediate', topic: 'Mixed-Methods Synthesis', q: 'How can a portfolio synthesize quantitative test scores with qualitative student interviews?', h: 'By utilizing a convergent parallel design where qualitative responses explain statistical trends.', m: 'Mixed-Methods Triangulation', s: '60 High School Seniors', i: 'Diagnostic Exams & Focus Group Transcripts', e: 'Pseudonym Coding', a: 'Thematic & Statistical Cross-Analysis' },
+            { id: 8, level: 'intermediate', topic: 'Instrument Reliability Audit', q: 'What step ensures an interview protocol yields reliable data across multiple evaluators?', h: 'Conducting inter-rater reliability checks and piloting prompts.', m: 'Qualitative Validation', s: '10 Pilot Participants', i: 'Semi-Structured Interview Guide', e: 'Participant Confidentiality', a: 'Inter-Rater Agreement Matrix' },
+            { id: 9, level: 'intermediate', topic: 'Data Anonymization Protocol', q: 'How should student portfolio evidence protect survey respondents from identification?', h: 'By removing names and assigning alphanumeric identifiers (e.g., Respondent S-01).', m: 'Data Governance', s: '100 Survey Participants', i: 'Encrypted Digital Storage', e: 'Strict Confidentiality', a: 'Data Security Protocol' },
+            { id: 10, level: 'intermediate', topic: 'Reflective Synthesis', q: 'How does a reflection log demonstrate metacognitive growth in research skills?', h: 'By analyzing how initial research assumptions were revised after empirical data collection.', m: 'Metacognitive Reflection', s: 'Individual Researcher', i: 'Weekly Portfolio Logs', e: 'Self-Analytical Transparency', a: 'Qualitative Synthesis' },
+
+            // Advanced (11-15)
+            { id: 11, level: 'advanced', topic: 'Quasi-Experimental Design Evaluation', q: 'Why select a quasi-experimental design over a true experiment in a high school setting?', h: 'When random assignment is impossible due to pre-existing intact classroom schedules.', m: 'Quasi-Experimental', s: '2 Pre-Existing Classrooms (N=52)', i: 'Standardized Diagnostic Rubrics', e: 'Institutional Review Board Clearance', a: 'ANCOVA Controlling for Baseline Scores' },
+            { id: 12, level: 'advanced', topic: 'Construct Validity in Portfolios', q: 'Critique a portfolio that claims to measure "leadership" using only self-reported popularity ratings.', h: 'Lacks construct validity because popularity does not equal multidimensional leadership behavior.', m: 'Psychometric Analysis', s: '120 Student Leaders', i: '360-Degree Peer & Advisor Evaluation', e: 'Multi-Source Assent', a: 'Factor & Construct Validation' },
+            { id: 13, level: 'advanced', topic: 'Longitudinal Portfolio Synthesis', q: 'How can a student evaluate skill progression across three research drafts in a final portfolio?', h: 'By conducting a comparative rubric evaluation tracking error reduction and argument complexity.', m: 'Longitudinal Content Analysis', s: '3 Sequential Paper Drafts', i: 'Analytical Rubric Scoring Matrix', e: 'Academic Integrity Verification', a: 'Trend Progression Analysis' },
+            { id: 14, level: 'advanced', topic: 'Ethical Dilemma Resolution', q: 'What protocol resolves a scenario where qualitative interviewees reveal sensitive personal distress?', h: 'Immediate pause, debriefing, and referral to professional school guidance counseling.', m: 'Ethical Crisis Safeguard', s: 'High School Interviewees', i: 'Risk Assessment Checklist', e: 'Beneficence & Harm Prevention', a: 'Qualitative Ethics Audit' },
+            { id: 15, level: 'advanced', topic: 'Comprehensive Unit Defense', q: 'How does a final portfolio defense demonstrate overall methodological mastery?', h: 'By articulating logical alignment between the RQ, design, sample, validation, and ethical framework.', m: 'Oral Portfolio Defense', s: 'Candidate & Academic Board', i: 'Comprehensive Defense Rubric', e: 'Academic Board Evaluation', a: 'Holistic Synthesis Scoring' }
+        ];
+
+        // --- DATA: 15 FORMATIVE EVALUATION EXERCISES ---
+        const evaluationItems = [
+            { id: 1, level: 'Basic', topic: 'Experimental vs. Descriptive', problem: 'A student wants to determine if listening to classical music causes higher math test scores. They conduct a simple descriptive survey asking students if they like music. Identify the flaw.', solution: 'Step 1: Goal: Determine causality (Does music cause higher scores?).\nStep 2: Flaw: A descriptive survey only measures opinions/correlations, not causality.\nStep 3: Fix: Re-design as an experimental study with controlled music vs. silence conditions during a math assessment.' },
+            { id: 2, level: 'Basic', topic: 'Sample Representativeness', problem: 'A high school portfolio study generalizes the study habits of all students in Guatemala based on 8 friends from one sports team. Fix this sampling method.', solution: 'Step 1: Issue: Severe sampling bias and tiny sample size (N=8).\nStep 2: Impact: Cannot generalize to a broader population.\nStep 3: Fix: Use stratified random sampling across multiple schools and grades with N >= 100.' },
+            { id: 3, level: 'Basic', topic: 'Instrument Match', problem: 'To measure exact anxiety levels before exams, a research proposal uses a open-ended essay prompt asking "Write about your childhood." What is wrong?', solution: 'Step 1: Variable: Exam anxiety.\nStep 2: Flaw: Childhood essay prompt lacks construct validity for pre-exam stress.\nStep 3: Fix: Use a validated exam anxiety scale (e.g., STAI) or physiological pulse tracking.' },
+            { id: 4, level: 'Basic', topic: 'Ethical Confidentiality', problem: 'A student includes un-redacted medical surveys with participant full names in their published portfolio appendix. Provide the correct procedure.', solution: 'Step 1: Violation: Breach of participant privacy and confidentiality.\nStep 2: Correction: Immediately redact all names, assign unique code numbers, and store raw data in password-protected files.' },
+            { id: 5, level: 'Basic', topic: 'Portfolio Organization', problem: 'A final portfolio contains draft 1 of an essay, but omits the research question, peer feedback, and reflection log. How should it be structured?', solution: 'Step 1: Identify missing components: Research Question, Peer Review Rubrics, Revised Drafts, Reflection Log.\nStep 2: Structure: Organize chronologically from Proposal -> Peer Feedback -> Final Draft -> Critical Reflection.' },
+
+            { id: 6, level: 'Intermediate', topic: 'Confounding Variable Control', problem: 'An experiment tests classroom temperature on test performance. Group A tests in a cool room at 8 AM. Group B tests in a hot room at 4 PM after sports practice. Identify the confounder.', solution: 'Step 1: Confounding variables: Time of day (8 AM vs 4 PM) and physical fatigue from sports practice.\nStep 2: Consequence: Unable to isolate temperature effect.\nStep 3: Solution: Conduct both tests at the same time of day with groups having identical pre-test activities.' },
+            { id: 7, level: 'Intermediate', topic: 'Assent vs. Consent', problem: 'A high schooler obtains parental consent to survey 14-year-olds, but forces students to participate even when they refuse. What ethical boundary was crossed?', solution: 'Step 1: Boundary Crossed: Minor Assent (Voluntary Agreement).\nStep 2: Explanation: Parental consent allows approach, but the minor must also give voluntary assent and retains the right to refuse without penalty.' },
+            { id: 8, level: 'Intermediate', topic: 'Mixed-Methods Triangulation', problem: 'A survey shows 90% student satisfaction with a new lunch program, but qualitative interviews reveal widespread complaints. How should the student handle this in their synthesis?', solution: 'Step 1: Recognize data divergence.\nStep 2: Action: Discuss discrepancy in the synthesis; explore if survey questions suffered from acquiescence bias or if interviewees highlighted specific qualitative nuances.' },
+            { id: 9, level: 'Intermediate', topic: 'Qualitative Data Coding', problem: 'A portfolio contains 20 interview transcripts but presents no thematic coding or frequency analysis, only raw text. How can this be upgraded?', solution: 'Step 1: Gap: Unanalyzed qualitative data.\nStep 2: Upgrade: Apply thematic analysis—categorize quotes into thematic codes, construct a codebook, and summarize key qualitative themes.' },
+            { id: 10, level: 'Intermediate', topic: 'Peer Review Integration', problem: 'A peer reviewer notes that a research proposal lacks a control group. The author ignores the comment without justification. What belongs in the portfolio reflective log?', solution: 'Step 1: Obligation: Address peer feedback systematically.\nStep 2: Log Action: Document why the suggestion was integrated OR provide a justified methodological reason for retaining the design.' },
+
+            { id: 11, level: 'Advanced', topic: 'Construct Validity Critique', problem: 'A researcher claims to measure "High School English Proficiency" solely through a 10-question multiple-choice spelling test. Critique this construct.', solution: 'Step 1: Target Construct: Overall English Proficiency (Reading, Writing, Speaking, Listening).\nStep 2: Flaw: Spelling test measures only surface orthography.\nStep 3: Fix: Expand instrument to a multi-domain assessment including writing prompts, listening comprehension, and oral rubrics.' },
+            { id: 12, level: 'Advanced', topic: 'Threats to Internal Validity', problem: 'In a 6-month study on reading intervention, 40% of the lowest-performing students drop out before the post-test. What threat to validity occurs?', solution: 'Step 1: Threat: Mortality / Attrition Bias.\nStep 2: Effect: Artificial inflation of post-test mean scores because low performers dropped out.\nStep 3: Remediation: Conduct intent-to-treat analysis or report differential attrition in synthesis.' },
+            { id: 13, level: 'Advanced', topic: 'Longitudinal Portfolio Evidence', problem: 'How can a student prove in their portfolio defense that their analytical writing improved across the academic year?', solution: 'Step 1: Metric: Comparative rubric tracking across Draft 1, Draft 2, and Final Paper.\nStep 2: Analysis: Map specific syntax complexity, source integration density, and reduction of logical fallacies over time.' },
+            { id: 14, level: 'Advanced', topic: 'Institutional Ethics Review (IRB)', problem: 'A high school research proposal involves filming students during personal counseling sessions. What is the ethical recommendation?', solution: 'Step 1: Risk Assessment: High psychological harm and extreme privacy violation.\nStep 2: Recommendation: Reject protocol. Re-design study using anonymized secondary data or non-invasive scenario-based surveys.' },
+            { id: 15, level: 'Advanced', topic: 'Holistic Methodological Alignment', problem: 'Synthesize a coherent research proposal outline for investigating how social media usage impacts high school sleep quality.', solution: 'Step 1: RQ: How does nightly screen time affect sleep duration in 11th graders?\nStep 2: Design: Quantitative Descriptive (Log Tracking + Actigraphy).\nStep 3: Sample: 60 Stratified 11th Graders.\nStep 4: Instrument: Daily Digital Screen Log & Sleep Scale.\nStep 5: Ethics: Anonymized ID Codes & Minor Assent.\nStep 6: Analysis: Pearson Correlation Coefficient.' }
+        ];
+
+        // --- RENDER SOLVED EXAMPLES ---
+        function renderExamples(filter = 'all') {
+            const container = document.getElementById('examples-container');
+            container.innerHTML = '';
+
+            const filtered = filter === 'all' 
+                ? solvedExamples 
+                : solvedExamples.filter(e => e.level === filter);
+
+            filtered.forEach(ex => {
+                const badgeColor = ex.level === 'basic' ? 'bg-montano-lightblue text-slate-800' : ex.level === 'intermediate' ? 'bg-montano-teal text-white' : 'bg-montano-blue text-white';
+                
+                const card = document.createElement('div');
+                card.className = 'bg-white p-5 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col justify-between space-y-3';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-extrabold px-2.5 py-1 rounded-full ${badgeColor}">Level ${ex.id}: ${ex.level.toUpperCase()}</span>
+                            <button onclick="speakExample(${ex.id})" class="text-montano-blue hover:text-montano-teal p-1.5 rounded-full hover:bg-montano-softwhite transition" title="Listen Example">
+                                <i class="fa-solid fa-volume-high text-md"></i>
+                            </button>
+                        </div>
+                        <h4 class="font-bold text-montano-blue text-base mb-2"><i class="fa-solid fa-bookmark text-montano-yellow mr-1"></i> Topic: ${ex.topic}</h4>
+                        <div class="space-y-1.5 text-xs text-gray-700">
+                            <p><strong>RQ/Case Prompt:</strong> ${ex.q}</p>
+                            <p><strong>Synthesis Insight:</strong> <span class="italic text-gray-600">${ex.h}</span></p>
+                            <div class="grid grid-cols-2 gap-2 mt-2 pt-2 border-t border-gray-100 text-[11px]">
+                                <div><span class="font-bold text-montano-teal">Design:</span> ${ex.m}</div>
+                                <div><span class="font-bold text-montano-teal">Sample:</span> ${ex.s}</div>
+                                <div><span class="font-bold text-montano-olive">Instrument:</span> ${ex.i}</div>
+                                <div><span class="font-bold text-montano-olive">Ethics:</span> ${ex.e}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-montano-softwhite p-2 rounded-xl border border-gray-200 text-[11px] font-semibold text-slate-700">
+                        <i class="fa-solid fa-chart-pie text-montano-blue mr-1"></i> <strong>Analysis / Audit:</strong> ${ex.a}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterExamples(level) {
+            renderExamples(level);
+        }
+
+        function speakExample(id) {
+            const ex = solvedExamples.find(e => e.id === id);
+            if (!ex) return;
+            const text = `Case Example ${ex.id}. Topic: ${ex.topic}. Case Prompt: ${ex.q}. Synthesis Insight: ${ex.h}. Method: ${ex.m}. Sample: ${ex.s}.`;
+            speakText(text);
+        }
+
+        // --- RENDER FORMATIVE EVALUATIONS ---
+        function renderEvaluations() {
+            const container = document.getElementById('evaluations-container');
+            container.innerHTML = '';
+
+            evaluationItems.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-5 rounded-2xl border border-gray-200 shadow-sm space-y-3';
+                card.innerHTML = `
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b pb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-montano-blue text-white text-xs font-bold px-2.5 py-1 rounded-lg">Exercise ${index + 1}</span>
+                            <span class="text-xs font-bold text-montano-teal bg-montano-teal/10 px-2 py-0.5 rounded">${item.level} Level</span>
+                            <span class="text-xs font-semibold text-gray-500">• ${item.topic}</span>
+                        </div>
+                        <button onclick="toggleSolution('sol-${item.id}')" class="bg-montano-softwhite hover:bg-montano-lightblue/30 text-montano-blue border border-montano-lightblue/50 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 self-start md:self-auto">
+                            <i class="fa-solid fa-eye text-montano-teal"></i> <span id="btn-text-sol-${item.id}">Show Solution</span>
+                        </button>
+                    </div>
+
+                    <p class="text-xs md:text-sm text-gray-800 font-semibold leading-relaxed">
+                        ${item.problem}
+                    </p>
+
+                    <div id="sol-${item.id}" class="hidden bg-montano-softwhite p-4 rounded-xl border-l-4 border-montano-teal text-xs text-gray-700 whitespace-pre-line leading-relaxed font-mono">
+                        <span class="font-extrabold text-montano-teal block mb-1 font-sans text-xs"><i class="fa-solid fa-square-check"></i> Step-by-Step Pedagogical Solution:</span>
+                        ${item.solution}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleSolution(id) {
+            const solDiv = document.getElementById(id);
+            const btnText = document.getElementById(`btn-text-${id}`);
+            if (solDiv.classList.contains('hidden')) {
+                solDiv.classList.remove('hidden');
+                btnText.innerText = 'Hide Solution';
+            } else {
+                solDiv.classList.add('hidden');
+                btnText.innerText = 'Show Solution';
+            }
+        }
+
+        // --- SPEECH SYNTHESIS ENGINE (TTS) ---
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.95;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('Text-to-speech is not supported by your browser.');
+            }
+        }
+
+        // --- VOICE RECOGNITION (STT) & EVALUATOR ---
+        let recognition = null;
+        let isRecording = false;
+
+        function initSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (SpeechRecognition) {
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.lang = 'en-US';
+                recognition.interimResults = false;
+
+                recognition.onstart = () => {
+                    isRecording = true;
+                    document.getElementById('mic-btn').classList.replace('bg-red-500', 'bg-emerald-600');
+                    document.getElementById('mic-label').innerText = 'Listening...';
+                    document.getElementById('mic-status').innerText = 'Microphone Active';
+                };
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    document.getElementById('defense-input').value = transcript;
+                    stopRecordingUI();
+                    evaluateDefense();
+                };
+
+                recognition.onerror = () => {
+                    stopRecordingUI();
+                    document.getElementById('mic-status').innerText = 'Voice input error. Try typing.';
+                };
+
+                recognition.onend = () => {
+                    stopRecordingUI();
+                };
+            }
+        }
+
+        function toggleVoiceRecognition() {
+            if (!recognition) initSpeechRecognition();
+            if (!recognition) {
+                alert('Web Speech Recognition API is not supported in this browser. Please type your defense into the input box.');
+                return;
+            }
+
+            if (isRecording) {
+                recognition.stop();
+                stopRecordingUI();
+            } else {
+                try {
+                    recognition.start();
+                } catch (e) {
+                    stopRecordingUI();
+                }
+            }
+        }
+
+        function stopRecordingUI() {
+            isRecording = false;
+            const btn = document.getElementById('mic-btn');
+            if(btn) {
+                btn.classList.replace('bg-emerald-600', 'bg-red-500');
+            }
+            document.getElementById('mic-label').innerText = 'Record Response';
+            document.getElementById('mic-status').innerText = 'Mic inactive';
+        }
+
+        // Real-Time Evaluation Engine Logic
+        function evaluateDefense() {
+            const input = document.getElementById('defense-input').value.trim();
+            if (!input) {
+                alert('Please enter or speak a portfolio synthesis defense first.');
+                return;
+            }
+
+            const lower = input.toLowerCase();
+
+            // Keywords to check
+            const targetKeywords = ['method', 'sample', 'instrument', 'ethical', 'consent', 'descriptive', 'experimental', 'portfolio', 'synthesis', 'anonymity', 'analysis', 'validity', 'triangulation'];
+            const foundKeywords = targetKeywords.filter(kw => lower.includes(kw));
+
+            // Render tags
+            const tagsContainer = document.getElementById('detected-keywords');
+            tagsContainer.innerHTML = '';
+            if (foundKeywords.length > 0) {
+                foundKeywords.forEach(kw => {
+                    const tag = document.createElement('span');
+                    tag.className = 'bg-montano-blue/10 text-montano-blue px-2 py-0.5 rounded-md font-bold text-xs';
+                    tag.innerText = `#${kw}`;
+                    tagsContainer.appendChild(tag);
+                });
+            } else {
+                tagsContainer.innerHTML = '<span class="text-xs text-red-500 italic">No synthesis keywords detected yet.</span>';
+            }
+
+            // Scoring Algorithms
+            const wordCount = input.split(/\s+/).length;
+            let clarityScore = Math.min(100, Math.max(30, wordCount * 4));
+            let grammarScore = Math.min(100, foundKeywords.length * 20 + 20);
+
+            const formalTerms = ['portfolio', 'synthesis', 'safeguard', 'utilize', 'methodology', 'conduct', 'participant', 'alignment', 'reflection'];
+            const foundFormal = formalTerms.filter(t => lower.includes(t));
+            let etiquetteScore = Math.min(100, 40 + foundFormal.length * 15);
+
+            // Animate Progress Bars
+            updateMeter('score-clarity-val', 'score-clarity-bar', clarityScore);
+            updateMeter('score-grammar-val', 'score-grammar-bar', grammarScore);
+            updateMeter('score-etiquette-val', 'score-etiquette-bar', etiquetteScore);
+
+            // Generate AI Feedback
+            const feedbackText = document.getElementById('feedback-text');
+            let feedback = '';
+
+            if (grammarScore >= 80 && clarityScore >= 70) {
+                feedback = `Outstanding portfolio defense! You synthesized your methodological choices with strong ethical justifications (${foundKeywords.slice(0, 3).join(', ')}). Your argument shows advanced academic rigor.`;
+            } else if (grammarScore >= 50) {
+                feedback = `Solid synthesis defense. You referenced key research terms, but incorporate additional details about instrument validation or data anonymization to elevate your score.`;
+            } else {
+                feedback = `Basic defense recorded. To boost your performance, include terms such as "descriptive," "experimental," "informed consent," and "instrument triangulation."`;
+            }
+
+            feedbackText.innerText = feedback;
+            speakText(feedback);
+        }
+
+        function updateMeter(valId, barId, score) {
+            document.getElementById(valId).innerText = `${score}%`;
+            document.getElementById(barId).style.width = `${score}%`;
+        }
+
+        // --- EXIT TICKET SUBMISSION ---
+        function submitExitTicket() {
+            const ethical = document.getElementById('exit-ethical').value.trim();
+            const skill = document.getElementById('exit-skill').value.trim();
+
+            if (!ethical || !skill) {
+                alert('Please complete both fields on your exit ticket.');
+                return;
+            }
+
+            const status = document.getElementById('exit-status');
+            status.classList.remove('hidden');
+            speakText(`Exit ticket recorded. Ethical principle: ${ethical}. Research skill: ${skill}.`);
+        }
+
+        // --- NAVIGATION TABS ---
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            document.getElementById(`btn-${tabId}`).classList.add('active');
+        }
+
+        // --- FULLSCREEN TOGGLE ---
+        function toggleFullscreen() {
+            const elem = document.getElementById('whiteboard');
+            if (!document.fullscreenElement) {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) {
+                    elem.webkitRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // --- INITIALIZATION ---
+        window.onload = function() {
+            renderExamples('all');
+            renderEvaluations();
+            initSpeechRecognition();
+        };
+    </script>
+</body>
+</html>
